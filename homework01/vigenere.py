@@ -1,24 +1,24 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
-        Encrypts plaintext using a Vigenere cipher.
+    Encrypts plaintext using a Vigenere cipher.
 
-        >>> encrypt_vigenere("PYTHON", "A")
-        'PYTHON'
-        >>> encrypt_vigenere("python", "a")
-        'python'
-        >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-        'LXFOPVEFRNHR'
-        """
+    >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> encrypt_vigenere("python", "a")
+    'python'
+    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
     ciphertext = ""
     for i in range(len(plaintext)):
         letters = plaintext[i]
         if letters.isalpha():
             stay_in_alphabet = ord(letters) + ord(keyword[i % len(keyword)].lower()) - ord("a")
             if (
-                    stay_in_alphabet > ord("z")
-                    and letters.lower() == letters
-                    or stay_in_alphabet > ord("Z")
-                    and letters.upper() == letters
+                stay_in_alphabet > ord("z")
+                and letters.lower() == letters
+                or stay_in_alphabet > ord("Z")
+                and letters.upper() == letters
             ):
                 stay_in_alphabet -= 26
             final_letter = chr(stay_in_alphabet)
