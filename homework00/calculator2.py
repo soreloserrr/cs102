@@ -11,20 +11,18 @@ def check_number(num):
         return "wrong"
 
 
-def check_int(number: float) -> tp.Union[None, int]:
-    if int(number) == number:
-        return int(number)
-    return None
+def math_degree(num, base):
+    if not (2 <= base <= 9):
+        print("Неверная степень числа")
+        return "wrong"
 
+    new_num = ""
 
-def math_degree(num1: float, num2: float) -> tp.Union[str, float]:
-    numbers = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    res = ""
-    num1, num2 = int(num1), int(num2)
-    while num1 > 0:
-        res = numbers[num1 % num2] + res
-        num1 = num1 // num2
-    return res if res != "" else 0
+    while num > 0:
+        new_num = str(int(num % base)) + new_num
+        num //= base
+
+    return new_num
 
 
 def match_case_calc2(num1: float, num2: float, command: str) -> tp.Union[float, str]:
@@ -51,6 +49,16 @@ def match_case_calc2(num1: float, num2: float, command: str) -> tp.Union[float, 
             return num1 * num2
         case "**":
             return num1**num2
+        case "cos":
+            return math.cos(num1)
+        case "sin":
+            return math.sin(num1)
+        case "tan":
+            return math.tan(num1)
+        case "log10":
+            return math.log10(num1)
+        case "ln":
+            return math.log(num1)
         case _:
             return f"Неизвестный оператор: {command!r}."
 
