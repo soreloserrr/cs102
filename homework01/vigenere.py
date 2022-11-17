@@ -55,5 +55,4 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             plaintext += final_letter
         else:
             plaintext += letters
-
     return plaintext
