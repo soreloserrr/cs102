@@ -24,12 +24,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -107,9 +102,7 @@ def find_empty_positions(
     return -1, -1
 
 
-def find_possible_values(
-    grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]
-) -> tp.Set[str]:
+def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
     """Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -148,7 +141,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     if not empty_pos:
         return None
     x, y = empty_pos
-    possible_vals = find_possible_values(grid,(x,y))
+    possible_vals = find_possible_values(grid, (x, y))
     if possible_vals:
         for i in possible_vals:
             grid[empty_pos[0]][empty_pos[1]] = i
@@ -178,9 +171,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             x = j // 3
             for k in range(3):
                 for p in range(3):
-                    if solution[3 * y + k][3 * x + p] == a and (
-                        i != 3 * y + k or j != 3 * x + p
-                    ):
+                    if solution[3 * y + k][3 * x + p] == a and (i != 3 * y + k or j != 3 * x + p):
                         return False
     return True
 
