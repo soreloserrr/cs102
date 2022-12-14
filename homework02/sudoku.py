@@ -80,6 +80,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
         for i in range(pos[0] - (pos[0] % 3), pos[0] - (pos[0] % 3) + 3)
         for j in range(pos[1] - (pos[1] % 3), pos[1] - (pos[1] % 3) + 3)
     ]
+
+
 def find_empty_positions(
     grid: tp.List[tp.List[str]],
 ) -> tp.Optional[tp.Tuple[int, int]]:
@@ -108,7 +110,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    
+
     values = set("123456789")
     return values.difference(set(get_row(grid, pos)), set(get_col(grid, pos)), set(get_block(grid, pos)))
 
@@ -158,6 +160,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
 
     return True
+
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
