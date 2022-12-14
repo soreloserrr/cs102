@@ -75,15 +75,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    y = pos[0] // 3
-    x = pos[1] // 3
-    res = []
-    for i in range(3):
-        for j in range(3):
-            res.append(grid[3 * y + i][3 * x + j])
-    return res
-
-
+    return [grid[i][j] for i in range(pos[0] - (pos[0] % 3), pos[0] - (pos[0] % 3) + 3) for j in range(pos[1] - (pos[1] % 3), pos[1] - (pos[1] % 3) + 3)]
 def find_empty_positions(
     grid: tp.List[tp.List[str]],
 ) -> tp.Optional[tp.Tuple[int, int]]:
@@ -99,7 +91,7 @@ def find_empty_positions(
         for j in range(len(grid[0])):
             if grid[i][j] == ".":
                 return i, j
-    return -1, -1
+    return None
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -112,15 +104,8 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    block = set(get_block(grid, pos))
-    row = set(get_row(grid, pos))
-    col = set(get_col(grid, pos))
-    possible_vals = []
-    for i in range(1, 10):
-        a = str(i)
-        if not (a in block or a in row or a in col):
-            possible_vals.append(a)
-    return set(possible_vals)
+    values = set("123456789")
+    return values.difference(set(get_row(grid, pos)), set(get_col(grid, pos)), set(get_block(grid, pos)))
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -135,46 +120,39 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    empty_pos = find_empty_positions(grid)
-    if empty_pos == (-1, -1):
-        return list(grid)
-    if not empty_pos:
-        return None
-    x, y = empty_pos
-    possible_vals = find_possible_values(grid, (x, y))
-    if possible_vals:
-        for i in possible_vals:
-            grid[empty_pos[0]][empty_pos[1]] = i
-            solved_grid = solve(grid)
-            if solved_grid == None:
-                grid[empty_pos[0]][empty_pos[1]] = "."
-            else:
-                break
-        return solved_grid
+    pos = find_empty_positions(grid)
+    if not pos:
+        return grid
+
+    values = find_possible_values(grid, pos)
+    for value in values:
+        grid[pos[0]][pos[1]] = value
+        solution = solve(grid)
+        if solution:
+            return solution
+
+    grid[pos[0]][pos[1]] = "."
     return None
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
-    for i in range(9):
-        for j in range(9):
-            a = solution[i][j]
-            if a == ".":
-                return False
-            for k in range(9):
-                if j != k and a == solution[i][k]:
-                    return False
-                if i != k and a == solution[k][j]:
-                    return False
-            y = i // 3
-            x = j // 3
-            for k in range(3):
-                for p in range(3):
-                    if solution[3 * y + k][3 * x + p] == a and (i != 3 * y + k or j != 3 * x + p):
-                        return False
-    return True
+    for row in range(len(solution)):
+        if set(solution[row]) != set("123456789"):
+            return False
 
+    for col in range(len(solution)):
+        if set(get_col(solution, (0, col))) != set("123456789"):
+            return False
+
+    for row in range(len(solution), 3):
+        for col in range(len(solution), 3):
+            block = set(get_block(solution, (row, col)))
+            if block != set("123456789"):
+                return False
+
+    return True
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
