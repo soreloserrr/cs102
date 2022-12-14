@@ -108,6 +108,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
+    
     values = set("123456789")
     return values.difference(set(get_row(grid, pos)), set(get_col(grid, pos)), set(get_block(grid, pos)))
 
