@@ -9,9 +9,7 @@ def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
     return [["■"] * cols for _ in range(rows)]
 
 
-def remove_wall(
-    grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> List[List[Union[str, int]]]:
     """
 
     :param grid:
@@ -20,11 +18,7 @@ def remove_wall(
     """
 
     direction = choice(("up", "right"))
-    if (
-            coord[1] < len(grid[0]) - 3
-            and coord[1] % 2 != 0
-            and (coord[0] == 1 or direction == "right")
-    ):
+    if (coord[1] < len(grid[0]) - 3 and coord[1] % 2 != 0 and (coord[0] == 1 or direction == "right")):
         grid[coord[0]][coord[1] + 1] = " "
     elif coord[0] > 2 and coord[0] % 2 != 0 and (coord[1] == len(grid[0]) - 2 or direction == "up"):
         grid[coord[0] - 1][coord[1]] = " "
@@ -32,8 +26,7 @@ def remove_wall(
 
 
 def bin_tree_maze(
-    rows: int = 15, cols: int = 15, random_exit: bool = True
-) -> List[List[Union[str, int]]]:
+    rows: int = 15, cols: int = 15, random_exit: bool = True) -> List[List[Union[str, int]]]:
     """
 
     :param rows:
@@ -131,16 +124,11 @@ def shortest_path(
     while grid[current_cell[0]][current_cell[1]] != 1:
         if current_cell[0] > 0 and grid[current_cell[0] - 1][current_cell[1]] == k - 1:
             next_cell = (current_cell[0] - 1, current_cell[1])
-        elif (
-                current_cell[0] < len(grid) - 1 and grid[current_cell[0] + 1][current_cell[1]] == k - 1
-        ):
+        elif (current_cell[0] < len(grid) - 1 and grid[current_cell[0] + 1][current_cell[1]] == k - 1):
             next_cell = (current_cell[0] + 1, current_cell[1])
         elif current_cell[1] > 0 and grid[current_cell[0]][current_cell[1] - 1] == k - 1:
             next_cell = (current_cell[0], current_cell[1] - 1)
-        elif (
-                current_cell[0] < len(grid[0]) - 1
-                and grid[current_cell[0]][current_cell[1] + 1] == k - 1
-        ):
+        elif (current_cell[0] < len(grid[0]) - 1 and grid[current_cell[0]][current_cell[1] + 1] == k - 1):
             next_cell = (current_cell[0], current_cell[1] + 1)
         else:
             grid[current_cell[0]][current_cell[1]] = " "
