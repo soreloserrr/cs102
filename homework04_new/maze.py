@@ -17,9 +17,9 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     """
 
     direction = choice((0, 1))
-    if coord[1] < len(grid[0]) - 3 and not (coord[1] % 2) and (coord[0] == 1 or direction == 0):
+    if coord[1] < len(grid[0]) - 3 and coord[1] % 2 and (coord[0] == 1 or direction == 1):
         grid[coord[0]][coord[1] + 1] = " "
-    elif coord[0] > 2 and not (coord[0] % 2) and (coord[1] == len(grid[0]) - 2 or direction == 1):
+    elif coord[0] > 2 and coord[0] % 2 and (coord[1] == len(grid[0]) - 2 or direction == 0):
         grid[coord[0] - 1][coord[1]] = " "
     return grid
 
@@ -88,8 +88,8 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :return:
     """
 
-    for x, row in enumerate(grid):
-        for y, _ in enumerate(row):
+    for x in range(len(grid[0])):
+        for y in range(len(grid)):
             if grid[x][y] == k:
                 if x < len(grid) - 1 and not grid[x + 1][y]:
                     grid[x + 1][y] = k + 1
@@ -104,7 +104,7 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
 
 
 def shortest_path(
-        grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
+    grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]
 ) -> Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]:
     """
     :param grid:
@@ -134,17 +134,16 @@ def shortest_path(
             return path
 
     while k != 1:
-        if grid[i][j] == k:
-            if grid[i - 1][j] == k - 1:
-                i, j = i - 1, j
-            elif grid[i + 1][j] == k - 1:
-                i, j = i + 1, j
-            elif grid[i][j - 1] == k - 1:
-                i, j = i, j - 1
-            elif grid[i][j + 1] == k - 1:
-                i, j = i, j + 1
-            path.append((i, j))
-            k -= 1
+        if grid[i - 1][j] == k - 1:
+            i, j = i - 1, j
+        elif grid[i + 1][j] == k - 1:
+            i, j = i + 1, j
+        elif grid[i][j - 1] == k - 1:
+            i, j = i, j - 1
+        elif grid[i][j + 1] == k - 1:
+            i, j = i, j + 1
+        path.append((i, j))
+        k -= 1
 
     return path
 
@@ -174,7 +173,7 @@ def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) ->
 
 
 def solve_maze(
-        grid: List[List[Union[str, int]]],
+    grid: List[List[Union[str, int]]],
 ) -> Tuple[List[List[Union[str, int]]], Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]]:
     """
     :param grid:
@@ -193,9 +192,10 @@ def solve_maze(
         for y in range(len(grid[0])):
             if grid[x][y] == " ":
                 grid[x][y] = 0
-    grid[coord[0][0]][coord[0][1]] = 1
+    # Выставляем начало и конец
     grid[coord[1][0]][coord[1][1]] = 0
-    k = 0
+    grid[coord[0][0]][coord[0][1]] = 1
+    k = 1
     while grid[coord[1][0]][coord[1][1]] == 0:
         grid = make_step(grid, k)
         k += 1
@@ -208,7 +208,7 @@ def solve_maze(
 
 
 def add_path_to_grid(
-        grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
+    grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
 ) -> List[List[Union[str, int]]]:
     """
     :param grid:
