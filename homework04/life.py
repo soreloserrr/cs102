@@ -1,7 +1,7 @@
+import json
 import pathlib
 import random
 import typing as tp
-import json
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
