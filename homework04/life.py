@@ -1,9 +1,7 @@
 import pathlib
 import random
 import typing as tp
-
-import pygame
-from pygame.locals import *
+import json
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
@@ -12,10 +10,10 @@ Grid = tp.List[Cells]
 
 class GameOfLife:
     def __init__(
-        self,
-        size: tp.Tuple[int, int],
-        randomize: bool = True,
-        max_generations: tp.Optional[float] = float("inf"),
+            self,
+            size: tp.Tuple[int, int],
+            randomize: bool = True,
+            max_generations: tp.Optional[float] = float("inf"),
     ) -> None:
         # Размер клеточного поля
         self.rows, self.cols = size
@@ -31,9 +29,9 @@ class GameOfLife:
     def create_grid(self, randomize: bool = False) -> Grid:
         # Copy from previous assignment
         if randomize:
-            grid = [[random.randint(0, 1) for _ in range(self.cell_width)] for _ in range(self.cell_height)]
+            grid = [[random.randint(0, 1) for _ in range(self.cols)] for _ in range(self.rows)]
         else:
-            grid = [[0 for _ in range(self.cell_width)] for _ in range(self.cell_height)]
+            grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
@@ -47,7 +45,7 @@ class GameOfLife:
                     continue
                 i = x + dx
                 j = y + dy
-                if i < 0 or i >= self.cell_height or j < 0 or j >= self.cell_width:
+                if i < 0 or i >= self.rows or j < 0 or j >= self.cols:
                     continue
                 neighbours.append(self.curr_generation[i][j])
         return neighbours
@@ -55,8 +53,8 @@ class GameOfLife:
     def get_next_generation(self) -> Grid:
         # Copy from previous assignment
         new_generation = self.create_grid()
-        for i in range(self.cell_height):
-            for j in range(self.cell_width):
+        for i in range(self.rows):
+            for j in range(self.cols):
                 cell = self.curr_generation[i][j]
                 neighbours = self.get_neighbours((i, j))
                 alive_neighbours = sum(neighbours)
@@ -100,7 +98,7 @@ class GameOfLife:
         with open(filename, "r") as f:
             lines = f.readlines()
 
-        size = tuple(map(int, lines[0].strip().split()))
+        size = (tuple(map(int, lines[0].strip().split()))[0], tuple(map(int, lines[0].strip().split()))[1])
         max_generations = float("inf") if len(lines) == 1 else int(lines[1])
         grid = [[int(cell) for cell in row.strip()] for row in lines[2:]]
         game = GameOfLife(size, randomize=False, max_generations=max_generations)

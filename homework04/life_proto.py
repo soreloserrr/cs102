@@ -14,7 +14,6 @@ class GameOfLife:
         self.width = width
         self.height = height
         self.cell_size = cell_size
-
         # Устанавливаем размер окна
         self.screen_size = width, height
         # Создание нового окна
@@ -26,6 +25,7 @@ class GameOfLife:
 
         # Скорость протекания игры
         self.speed = speed
+        self.curr_generation = self.create_grid(randomize=True)
 
     def draw_lines(self) -> None:
         """Отрисовать сетку"""
@@ -49,12 +49,14 @@ class GameOfLife:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.draw_lines()
+            self.curr_generation = self.get_next_generation()
 
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
             # PUT YOUR CODE HERE
 
+            self.draw_grid()
+            self.draw_lines()
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
@@ -89,7 +91,7 @@ class GameOfLife:
         """
         for i in range(self.cell_height):
             for j in range(self.cell_width):
-                cell_color = pygame.Color("white") if not self.grid[i][j] else pygame.Color("green")
+                cell_color = pygame.Color("white") if not self.curr_generation[i][j] else pygame.Color("green")
                 pygame.draw.rect(
                     self.screen, cell_color, (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size)
                 )
@@ -148,3 +150,8 @@ class GameOfLife:
                 else:
                     new_generation[i][j] = 0
         return new_generation
+
+
+if __name__ == '__main__':
+    game = GameOfLife(320, 240, 20)
+    game.run()
