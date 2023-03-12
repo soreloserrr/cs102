@@ -81,7 +81,7 @@ class GameOfLife:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        if self.max_generations == float('inf'):
+        if self.max_generations == float("inf"):
             return False
         return self.generations > self.max_generations
 

@@ -20,8 +20,9 @@ class GUI(UI):
         for i in range(self.cell_height):
             for j in range(self.cell_width):
                 cell_color = pygame.Color("white") if not self.grid[i][j] else pygame.Color("green")
-                pygame.draw.rect(self.screen, cell_color,
-                                 (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size))
+                pygame.draw.rect(
+                    self.screen, cell_color, (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size)
+                )
 
     def run(self) -> None:
         # Copy from previous assignment
