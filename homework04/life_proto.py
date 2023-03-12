@@ -152,6 +152,6 @@ class GameOfLife:
         return new_generation
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     game = GameOfLife(320, 240, 20)
     game.run()
