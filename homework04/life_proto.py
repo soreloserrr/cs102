@@ -25,7 +25,7 @@ class GameOfLife:
 
         # Скорость протекания игры
         self.speed = speed
-        self.curr_generation = self.create_grid(randomize=True)
+        self.grid = self.create_grid(randomize=True)
 
     def draw_lines(self) -> None:
         """Отрисовать сетку"""
@@ -49,7 +49,7 @@ class GameOfLife:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.curr_generation = self.get_next_generation()
+            self.grid = self.get_next_generation()
 
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
@@ -91,7 +91,7 @@ class GameOfLife:
         """
         for i in range(self.cell_height):
             for j in range(self.cell_width):
-                cell_color = pygame.Color("white") if not self.curr_generation[i][j] else pygame.Color("green")
+                cell_color = pygame.Color("white") if not self.grid[i][j] else pygame.Color("green")
                 pygame.draw.rect(
                     self.screen, cell_color, (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size)
                 )
@@ -114,7 +114,7 @@ class GameOfLife:
         out : Cells
             Список соседних клеток.
         """
-        x, y = cell
+        y, x = cell
         deltas = [-1, 0, 1]
         neighbours = []
         for dx in deltas:
@@ -123,9 +123,9 @@ class GameOfLife:
                     continue
                 i = x + dx
                 j = y + dy
-                if i < 0 or i >= self.cell_height or j < 0 or j >= self.cell_width:
+                if i < 0 or i >= self.cell_width or j < 0 or j >= self.cell_height:
                     continue
-                neighbours.append(self.curr_generation[i][j])
+                neighbours.append(self.grid[j][i])
         return neighbours
 
     def get_next_generation(self) -> Grid:
@@ -140,7 +140,7 @@ class GameOfLife:
         new_generation = self.create_grid()
         for i in range(self.cell_height):
             for j in range(self.cell_width):
-                cell = self.curr_generation[i][j]
+                cell = self.grid[i][j]
                 neighbours = self.get_neighbours((i, j))
                 alive_neighbours = sum(neighbours)
                 if cell == 0 and alive_neighbours == 3:
