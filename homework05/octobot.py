@@ -117,7 +117,7 @@ def choose_action(message):
                         bot.send_message(
                             message.chat.id,
                             f"{row['Предмет']}. Работа № {j - 1}\nДедлайн <b>{cell_data}</b>",
-                            parse_mode="HTML"
+                            parse_mode="HTML",
                         )
         if deadline_count == 0:
             bot.send_message(message.chat.id, "Дедлайнов на этой неделе нет!")
@@ -395,7 +395,7 @@ def octobot(message):
                 message.chat.id,
                 f"<a href='{df.at[i, 'Link']}'> {df.at[i, 'Subject']} </a>",
                 parse_mode="HTML",
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )
     start(message)
 
