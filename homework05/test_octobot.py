@@ -1,6 +1,6 @@
 import unittest
-import octobot
 from datetime import datetime
+import octobot
 
 
 class TestOctobot(unittest.TestCase):
