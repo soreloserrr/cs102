@@ -114,7 +114,11 @@ def choose_action(message):
                     delta = date - today
                     if 0 <= delta.days <= 7:
                         deadline_count += 1
-                        bot.send_message(message.chat.id, f"{row['Предмет']}. Работа № {j - 1}\nДедлайн <b>{cell_data}</b>", parse_mode="HTML")
+                        bot.send_message(
+                            message.chat.id,
+                            f"{row['Предмет']}. Работа № {j - 1}\nДедлайн <b>{cell_data}</b>",
+                            parse_mode="HTML"
+                        )
         if deadline_count == 0:
             bot.send_message(message.chat.id, "Дедлайнов на этой неделе нет!")
         sleep(deadline_count)
@@ -266,7 +270,9 @@ def update_deadline(message, work_number, subject_chosen, df):
     cell = row.iloc[0, work_number + 1]
     cell.value = message.text
     worksheet.update_cell(cell.row, cell.col, message.text)
-    bot.send_message(message.chat.id, f"Дедлайн для работы №{work_number} по предмету {subject_chosen} успешно обновлен")
+    bot.send_message(
+        message.chat.id, f"Дедлайн для работы №{work_number} по предмету {subject_chosen} успешно обновлен"
+    )
     start(message)
 
 
@@ -301,7 +307,7 @@ def add_new_subject_url(message):
 
 
 def update_subject(message):
-    """ Обновляем информацию о предмете в Google-таблице """
+    """Обновляем информацию о предмете в Google-таблице"""
     worksheet, url, df = access_current_sheet()
     subject_row = df[df["Предмет"] == message.text]
     if len(subject_row) == 0:
@@ -314,7 +320,7 @@ def update_subject(message):
 
 
 def update_subject_name(message):
-    """ Обновляем название предмета в Google-таблице """
+    """Обновляем название предмета в Google-таблице"""
     table_data = access_current_sheet()
     ws = table_data[0]
     global ROW, COL
@@ -338,7 +344,7 @@ def update_subject_url(message):
 
 def update_cell_data(message, action):
     if action == "Введите новую ссылку" or action == "Введенная ссылка некорректна, попробуйте еще раз":
-        text = ("https://" + message.text if (len(message.text) > 3 and message.text[:4] == "www.") else message.text)
+        text = "https://" + message.text if (len(message.text) > 3 and message.text[:4] == "www.") else message.text
         is_valid = validators.url(text)
         if not is_valid:
             new = bot.send_message(message.chat.id, "Введенная ссылка некорректна, попробуйте еще раз")
@@ -385,7 +391,12 @@ def octobot(message):
         df = table_data[2]
         bot.send_message(message.chat.id, "Доступные предметы")
         for i in range(df.shape[0]):
-            bot.send_message(message.chat.id, f"<a href='{df.at[i, 'Link']}'> {df.at[i, 'Subject']} </a>", parse_mode="HTML", disable_web_page_preview=True, )
+            bot.send_message(
+                message.chat.id,
+                f"<a href='{df.at[i, 'Link']}'> {df.at[i, 'Subject']} </a>",
+                parse_mode="HTML",
+                disable_web_page_preview=True
+            )
     start(message)
 
 
