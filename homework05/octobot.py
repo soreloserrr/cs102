@@ -195,14 +195,14 @@ def update_subject_deadline(message, action):
     if not message.text.isdigit():
         info = bot.send_message(
             message.chat.id,
-            "Ошибочка. Введи номер работы как целое число без дополнительных знаков",
+            "Ошибка, введите номер работ как целое число",
         )
         bot.register_next_step_handler(info, update_subject_deadline)
         return
     if int(message.text) > 100:
         info = bot.send_message(
             message.chat.id,
-            "Вряд ли у тебя так много работ. Введи номер работы как целое число, не большее, чем 100",
+            "Ошибка, введите номер работ как целое число",
         )
         bot.register_next_step_handler(info, update_subject_deadline)
         return
