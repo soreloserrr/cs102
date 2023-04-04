@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from time import sleep
+from typing import Any
 
 import action
 import gspread
@@ -14,7 +15,7 @@ bot = telebot.TeleBot("5670074293:AAEoqvcWwC55R79vrYBk-wodk1DUQFXhhN8")
 ROW, COL = None, None
 
 
-def convert_date(date_str: str = "01/01/0000") -> datetime:
+def convert_date(date_str: str = "01/01/0000") -> Any(datetime):
     """Конвертируем дату из строки в datetime"""
     # PUT YOUR CODE HERE
     try:
