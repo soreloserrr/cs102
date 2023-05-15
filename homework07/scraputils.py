@@ -18,6 +18,7 @@ def extract_news(parser):
 
 def extract_next_page(parser):
     """Extract next page URL"""
+    
     return parser.find('a', {"class": "morelink"})["href"]
 
 

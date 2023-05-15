@@ -5,6 +5,7 @@ from scraputils import get_news
 
 bayes = NaiveBayesClassifier(alpha=0.05)
 
+
 @route("/news")
 def news_list():
     s = session()
