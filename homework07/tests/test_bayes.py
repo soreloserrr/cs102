@@ -1,5 +1,6 @@
 import csv
 import string
+import nltk
 import unittest
 
 from bayes import NaiveBayesClassifier
@@ -68,4 +69,5 @@ class TestBayes(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    nltk.download('wordnet')
     unittest.main()
