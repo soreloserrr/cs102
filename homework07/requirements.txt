@@ -2,7 +2,5 @@ boddle
 bottle
 bs4
 nltk
-nltk.stem
-nltk.tokenize
 sqlalchemy
 requests
