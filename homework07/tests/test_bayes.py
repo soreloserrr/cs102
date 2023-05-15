@@ -1,8 +1,8 @@
 import csv
 import string
-import nltk
 import unittest
 
+import nltk
 from bayes import NaiveBayesClassifier
 
 PATH_FOR_GIT = "C:\\Users\\User\\cs102\\homework07\\data\\"
