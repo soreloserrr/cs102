@@ -53,4 +53,4 @@ class NaiveBayesClassifier:
                 num_correct += 1
         accuracy = num_correct / num_total
         return accuracy
-    
+
