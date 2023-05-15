@@ -15,8 +15,8 @@ def news_list():
 @route("/add_label/")
 def add_label():
     s = session()
-    label = request.params.get('label', '')
-    news_id = request.params.get('id')
+    label = request.params.get("label", "")
+    news_id = request.params.get("id")
     s.query(News).filter(News.id == news_id).update({News.label: label})
     s.commit()
     if __name__ == "__main__":

@@ -27,7 +27,8 @@ class NaiveBayesClassifier:
         for word in self.words:
             for label in self.labels:
                 self.word_probabilities[label][word] = (self.word_probabilities[label][word] + self.alpha) / (
-                            count_labels[label] + self.alpha * len(self.words))
+                            count_labels[label] + self.alpha * len(self.words)
+                )
 
     def predict(self, X):
         predictions = []
