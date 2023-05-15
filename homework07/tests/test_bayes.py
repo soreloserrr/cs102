@@ -1,4 +1,5 @@
 import csv
+import os
 import string
 import unittest
 
@@ -7,7 +8,7 @@ from bayes import NaiveBayesClassifier
 
 nltk.download('wordnet')
 
-PATH_FOR_GIT = "C:\\Users\\User\\cs102\\homework07\\data\\"
+PATH_FOR_GIT = os.getcwd() + "data/"
 
 class TestBayes(unittest.TestCase):
     def test_fit_predict(self):
