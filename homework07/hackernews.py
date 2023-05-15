@@ -1,16 +1,13 @@
-from bottle import (
-    route, run, template, request, redirect
-)
-
-from scraputils import get_news
-from db import News, session
 from bayes import NaiveBayesClassifier
+from bottle import (route, run, template, request, redirect)
+from db import News, session
+from scraputils import get_news
 
 bayes = NaiveBayesClassifier(alpha=0.05)
 
 @route("/news")
 def news_list():
-    s = session
+    s = session()
     rows = s.query(News).filter(News.label.is_(None)).all()
     return template("news_template", rows=rows)
 
