@@ -8,9 +8,7 @@ from bayes import NaiveBayesClassifier
 
 nltk.download('wordnet')
 
-os.chdir("..")
-
-PATH_FOR_GIT = os.getcwd() + "/data/"
+PATH_FOR_GIT = os.getcwd() + "/"
 
 class TestBayes(unittest.TestCase):
     def test_fit_predict(self):
