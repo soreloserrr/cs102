@@ -5,6 +5,8 @@ import unittest
 import nltk
 from bayes import NaiveBayesClassifier
 
+nltk.download('wordnet')
+
 PATH_FOR_GIT = "C:\\Users\\User\\cs102\\homework07\\data\\"
 
 class TestBayes(unittest.TestCase):
