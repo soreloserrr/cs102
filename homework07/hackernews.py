@@ -10,7 +10,7 @@ bayes = NaiveBayesClassifier(alpha=0.05)
 
 @route("/news")
 def news_list():
-    s = session()
+    s = session
     rows = s.query(News).filter(News.label.is_(None)).all()
     return template("news_template", rows=rows)
 
