@@ -52,7 +52,6 @@ def update_news():
         redirect("/news")
 
 
-
 @route("/classify")
 def classify_news():
     s = session()
@@ -81,7 +80,6 @@ def recommendations():
     s.commit()
     sorted_news = sorted(news, key=lambda x: x.label)
     return template("news_template", rows=sorted_news)
-
 
 
 if __name__ == "__main__":
