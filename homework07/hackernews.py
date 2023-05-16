@@ -1,10 +1,11 @@
+import string
+
 from bayes import NaiveBayesClassifier
 from bottle import redirect, request, route, run, template
 from db import News, session
 from scraputils import get_news
 
 bayes = NaiveBayesClassifier(alpha=0.05)
-
 
 @route("/news")
 def news_list():
@@ -69,17 +70,27 @@ def classify_news():
     return sorted_news
 
 
-@route("/recommendations")
+@route('/recommendations')
 def recommendations():
     s = session()
-    news = s.query(News).filter(News.label.is_(None)).all()
-    X = [i.title for i in news]
-    y = bayes.predict(X)
-    for item, label in zip(news, y):
-        item.label = label
-    s.commit()
-    sorted_news = sorted(news, key=lambda x: x.label)
-    return template("news_template", rows=sorted_news)
+    rows = s.query(News).filter(News.label != None).all()
+    X_train = [clean(row.title).lower() for row in rows]
+    y_train = [row.label for row in rows]
+    model = NaiveBayesClassifier(alpha=0.05)
+    model.fit(X_train, y_train)
+    s = session()
+    rows_unlabelled = s.query(News).filter(News.label == None).all()
+    X = [clean(row.title).lower() for row in rows_unlabelled]
+    predictions = model.predict(X)
+    rows_good = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == 'good']
+    rows_maybe = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == 'maybe']
+    rows_never = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == 'never']
+    return template('recommendation_template', rows_good=rows_good, rows_maybe=rows_maybe, rows_never=rows_never)
+
+
+def clean(s):
+    translator = str.maketrans("", "", string.punctuation)
+    return s.translate(translator)
 
 
 if __name__ == "__main__":
