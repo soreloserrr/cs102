@@ -6,9 +6,10 @@ import unittest
 import nltk
 from bayes import NaiveBayesClassifier
 
-nltk.download('wordnet')
+nltk.download("wordnet")
 
 PATH_FOR_GIT = "/home/runner/work/cs102/cs102/homework07/tests/"
+
 
 class TestBayes(unittest.TestCase):
     def test_fit_predict(self):
@@ -72,5 +73,5 @@ class TestBayes(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    nltk.download('wordnet')
+    nltk.download("wordnet")
     unittest.main()
