@@ -23,14 +23,12 @@ class NaiveBayesClassifier:
                 stemmed_word = lemmatizer.lemmatize(word)
                 self.words[stemmed_word] += 1
                 self.word_probabilities[label][stemmed_word] += 1
-        count_labels = {
-            lbl: sum(word_counts.values()) for lbl, word_counts in self.word_probabilities.items()
-        }
+        count_labels = {lbl: sum(word_counts.values()) for lbl, word_counts in self.word_probabilities.items()}
         for word in self.words:
             for label in self.labels:
-                self.word_probabilities[label][word] = (
-                    self.word_probabilities[label][word] + self.alpha
-                ) / (count_labels[label] + self.alpha * len(self.words))
+                self.word_probabilities[label][word] = (self.word_probabilities[label][word] + self.alpha) / (
+                    count_labels[label] + self.alpha * len(self.words)
+                )
 
     def predict(self, X):
         predictions = []

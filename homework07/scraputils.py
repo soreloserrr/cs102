@@ -24,9 +24,7 @@ def extract_news(parser):
             comments = 0
         else:
             comments = int(comments.split()[0])
-        news_list.append(
-            {"author": author, "comments": comments, "points": points, "title": title, "url": url}
-        )
+        news_list.append({"author": author, "comments": comments, "points": points, "title": title, "url": url})
 
     return news_list
 

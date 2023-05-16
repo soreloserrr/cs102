@@ -83,18 +83,10 @@ def recommendations():
     rows_unlabelled = s.query(News).filter(News.label == None).all()
     X = [clean(row.title).lower() for row in rows_unlabelled]
     predictions = model.predict(X)
-    rows_good = [
-        rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "good"
-    ]
-    rows_maybe = [
-        rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "maybe"
-    ]
-    rows_never = [
-        rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "never"
-    ]
-    return template(
-        "recommendation_template", rows_good=rows_good, rows_maybe=rows_maybe, rows_never=rows_never
-    )
+    rows_good = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "good"]
+    rows_maybe = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "maybe"]
+    rows_never = [rows_unlabelled[i] for i in range(len(rows_unlabelled)) if predictions[i] == "never"]
+    return template("recommendation_template", rows_good=rows_good, rows_maybe=rows_maybe, rows_never=rows_never)
 
 
 def clean(s):
