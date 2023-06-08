@@ -21,7 +21,7 @@ def ego_network(
     network = [
         (friend.get("id"), accaunt)  # type: ignore
         for friend in my_friends  # type: ignore
-        if (friend_id := friend.get("id")) is not None and (common_friends := friend.get("common_friends")) is not None
+        if (friend_id := friend.get("id")) is not None and (common_friends := friend.get("common_friends")) is not None  # type: ignore
         for accaunt in common_friends
     ]
     return network  # type: ignore
