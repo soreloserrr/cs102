@@ -21,8 +21,7 @@ def ego_network(
     network = [
         (friend.get("id"), accaunt)
         for friend in my_friends
-        if (friend_id := friend.get("id")) is not None
-           and (common_friends := friend.get("common_friends")) is not None
+        if (friend_id := friend.get("id")) is not None and (common_friends := friend.get("common_friends")) is not None
         for accaunt in common_friends
     ]
     return network
@@ -85,4 +84,3 @@ if __name__ == "__main__":
     communities = get_communities(net)
     df = describe_communities(communities, resp.items, fields=["first_name", "last_name"])
     print(df)
-

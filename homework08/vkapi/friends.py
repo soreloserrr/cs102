@@ -32,7 +32,7 @@ def get_friends(
     version_ = config.VK_CONFIG["version"]
     fields = fields and ", ".join(fields) or ""
     base = f"{domain}"
-    url = ( f"friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&offset={offset}&count={count}&v={version_}" )
+    url = f"friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&offset={offset}&count={count}&v={version_}"
     session_ = Session(base)
     get_url = session_.get(url)
     try:
@@ -110,4 +110,3 @@ if __name__ == "__main__":
     mutual_friends_number = len(mutual_friends)
     print("Количество общих друзей пользователя:", mutual_friends_number)
     print("Список id общих друзей пользователя:", mutual_friends)
-
