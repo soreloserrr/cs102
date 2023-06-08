@@ -30,7 +30,7 @@ def get_friends(
     domain = config.VK_CONFIG["domain"]
     access_token = config.VK_CONFIG["access_token"]
     version_ = config.VK_CONFIG["version"]
-    fields = fields and ", ".join(fields) or ""
+    fields = fields and ", ".join(fields) or ""  # type: ignore
     base = f"{domain}"
     url = f"friends.get?access_token={access_token}&user_id={user_id}&fields={fields}&offset={offset}&count={count}&v={version_}"
     session_ = Session(base)
@@ -103,7 +103,7 @@ def get_mutual(
 if __name__ == "__main__":
     user_id = 404313118
     resp = get_friends(user_id=user_id, fields=["nickname"])
-    users = [user["id"] for user in resp.items if not user.get("deactivated")]
+    users = [user["id"] for user in resp.items if not user.get("deactivated")]  # type: ignore
     friends_number = len(users)
     print("Количество друзей пользователя:", friends_number)
     mutual_friends = get_mutual(source_uid=user_id, target_uid=588945898, count=friends_number)

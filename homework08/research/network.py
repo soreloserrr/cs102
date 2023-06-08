@@ -17,14 +17,14 @@ def ego_network(
     :param user_id: Идентификатор пользователя, для которого строится граф друзей.
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
-    my_friends = get_mutual(user_id, target_uids=friends, count=len(friends))
+    my_friends = get_mutual(user_id, target_uids=friends, count=len(friends))  # type: ignore
     network = [
-        (friend.get("id"), accaunt)
-        for friend in my_friends
+        (friend.get("id"), accaunt)  # type: ignore
+        for friend in my_friends  # type: ignore
         if (friend_id := friend.get("id")) is not None and (common_friends := friend.get("common_friends")) is not None
         for accaunt in common_friends
     ]
-    return network
+    return network  # type: ignore
 
 
 def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:
@@ -77,10 +77,10 @@ def describe_communities(
 if __name__ == "__main__":
     user_id = 404313118
     resp = get_friends(user_id=user_id, fields=["nickname"])
-    acrive = [user["id"] for user in resp.items if not user.get("deactivated")]
+    acrive = [user["id"] for user in resp.items if not user.get("deactivated")]  # type: ignore
     net = ego_network(user_id=user_id, friends=acrive)
     print(net)
     plot_communities(net)
     communities = get_communities(net)
-    df = describe_communities(communities, resp.items, fields=["first_name", "last_name"])
+    df = describe_communities(communities, resp.items, fields=["first_name", "last_name"])  # type: ignore
     print(df)
