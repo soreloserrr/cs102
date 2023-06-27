@@ -1,0 +1,6 @@
+boddle
+bottle
+bs4
+nltk
+sqlalchemy
+requests
